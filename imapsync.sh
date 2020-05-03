@@ -19,6 +19,7 @@ function doSync() {
 	  --noexpungeaftereach                   \
 	  --usecache                             \
 	  --no-modulesversion                    \
+	  --nofoldersizes                        \
 	  --nofoldersizesatend                   \
          > $LOGFILE 2>&1
 }
