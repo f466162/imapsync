@@ -14,10 +14,11 @@ function doSync() {
 	   --tls2                                \
 	   --user2 ${USER2}                      \
 	   --passfile2 ${PASS2}                  \
+	  --noexpungeaftereach                   \
+	  --regexflag 's,,IMAPSYNC ,'            \
+	  --usecache                             \
 	  --pidfile $HOME/imapsync.pid           \
 	  --tmpdir $HOME/tmp                     \
-	  --noexpungeaftereach                   \
-	  --usecache                             \
 	  --no-modulesversion                    \
 	  --nofoldersizes                        \
 	  --nofoldersizesatend                   \
@@ -37,6 +38,8 @@ do
 	# Account loop
 	for i in $HOME/*.conf
 	do
+		echo INFO: Sync startet for ${i}
+
 		# Might happen in case of an empty volume or wrong permissions
 		if ! [ -r "$i" ]
 		then
@@ -53,8 +56,6 @@ do
 		# Clean old log
 		truncate -s 0 ${LOGFILE}
 
-		echo INFO: Sync startet for ${i}
-
 		doSync || {
 			errorlog=${LOGFILE}.$$.`date +%s`
 			>&2 echo An error occured for ${i}, see ${errorlog}
@@ -64,11 +65,14 @@ do
 			exit 1
 		}
 
-		egrep "^(Transfer time|Folders synced|Messages transferred)" $LOGFILE
+		egrep "^(Transfer time|Messages transferred)" $LOGFILE
 		echo INFO: Sync ended for ${i}
 	done
 
 	# Wait for next sync
-	sleep $(((RANDOM % 1337) + 60))
+	duration=$(((RANDOM % 1337) + 67))
+	echo INFO: Sleeping for ${duration} seconds
+
+	sleep ${duration} 
 done
 
