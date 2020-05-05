@@ -1,6 +1,8 @@
 #!/bin/bash
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export SLEEP_MINIMUM=${SLEEP_MINIMUM:=300}
+export SLEEP_MODULO=${SLEEP_MODULO:=1800}
 
 function doSync() {
 	imapsync                                 \
@@ -70,7 +72,7 @@ do
 	done
 
 	# Wait for next sync
-	duration=$(((RANDOM % 1337) + 67))
+	duration=$(((RANDOM % ${SLEEP_MODULO}) + ${SLEEP_MINIMUM}))
 	echo INFO: Sleeping for ${duration} seconds
 
 	sleep ${duration} 
