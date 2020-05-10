@@ -17,14 +17,12 @@ function doSync() {
 	   --user2 ${USER2}                      \
 	   --passfile2 ${PASS2}                  \
 	  --noexpungeaftereach                   \
-	  --regexflag 's,,IMAPSYNC ,g'           \
 	  --usecache                             \
 	  --pidfile $HOME/imapsync.pid           \
 	  --tmpdir $HOME/tmp                     \
 	  --no-modulesversion                    \
 	  --nofoldersizes                        \
 	  --nofoldersizesatend                   \
-	  --debugflags		                 \
          > $LOGFILE 2>&1
 }
 
