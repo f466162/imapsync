@@ -39,8 +39,6 @@ do
 	# Account loop
 	for i in $HOME/*.conf
 	do
-		echo INFO: Sync startet for ${i}
-
 		# Might happen in case of an empty volume or wrong permissions
 		if ! [ -r "$i" ]
 		then
@@ -65,14 +63,10 @@ do
 
 			exit 1
 		}
-
-		egrep "^(Transfer time|Messages transferred)" $LOGFILE
-		echo INFO: Sync ended for ${i}
 	done
 
 	# Wait for next sync
 	duration=$(((RANDOM % ${SLEEP_MODULO}) + ${SLEEP_MINIMUM}))
-	echo INFO: Sleeping for ${duration} seconds
 
 	sleep ${duration} 
 done
